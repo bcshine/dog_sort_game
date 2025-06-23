@@ -37,7 +37,7 @@ body {
 
 /* 시작 화면 */
 .title {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: #2c3e50;
     margin-bottom: 20px;
@@ -150,6 +150,31 @@ body {
     font-weight: 600;
     color: #555;
     margin-bottom: 20px;
+}
+
+.difficulty-indicator {
+    margin-bottom: 20px;
+}
+
+.difficulty-indicator span {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    box-shadow: 0 3px 10px rgba(46, 204, 113, 0.3);
+}
+
+.difficulty-indicator .medium {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    box-shadow: 0 3px 10px rgba(243, 156, 18, 0.3);
+}
+
+.difficulty-indicator .hard {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    box-shadow: 0 3px 10px rgba(231, 76, 60, 0.3);
 }
 
 .dog-image-container {
@@ -267,16 +292,120 @@ body {
 }
 
 .coupon-section {
-    margin-bottom: 30px;
+    margin: 25px 0;
+    text-align: center;
 }
 
-.coupon-image {
-    width: 100%;
-    max-width: 250px;
-    height: auto;
+.coupon-card {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    border: 3px dashed #FF6B6B;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.coupon-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.1) 10px,
+        rgba(255, 255, 255, 0.1) 20px
+    );
+    animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.coupon-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.coupon-header h3 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.coupon-icon {
+    font-size: 1.5rem;
+    animation: bounce 2s infinite;
+}
+
+.coupon-content {
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin: 15px 0;
+    position: relative;
+    z-index: 1;
+}
+
+.coupon-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #e74c3c;
+    margin-bottom: 8px;
+}
+
+.coupon-benefit {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #27ae60;
+    margin-bottom: 8px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.coupon-description {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.coupon-validity {
+    font-size: 0.9rem;
+    color: #777;
+    font-style: italic;
+}
+
+.coupon-footer {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    padding: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+.coupon-code {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2c3e50;
+    font-family: 'Courier New', monospace;
+}
+
+.coupon-section p {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-top: 15px;
 }
 
 .result-buttons {
