@@ -1,3 +1,118 @@
+// ==== Individual Trial Activation 라이센스 관리 시스템 (30일 한정) ====
+const LICENSE_DURATION_DAYS = 30;
+const WARNING_THRESHOLD_DAYS = 5;
+
+// 라이센스 초기화 및 검증
+function initializeLicense() {
+    try {
+        const activationDate = localStorage.getItem('dogGameActivationDate');
+        const currentDate = new Date();
+        
+        if (!activationDate) {
+            // 첫 실행 - 활성화 날짜 저장
+            const activationTimestamp = currentDate.getTime();
+            localStorage.setItem('dogGameActivationDate', activationTimestamp.toString());
+            console.log('라이센스 활성화: 30일 체험판 시작');
+            showLicenseWelcome();
+            return true;
+        }
+        
+        // 기존 사용자 - 남은 일수 계산
+        const activationTimestamp = parseInt(activationDate);
+        const activationDateObj = new Date(activationTimestamp);
+        const daysPassed = Math.floor((currentDate - activationDateObj) / (1000 * 60 * 60 * 24));
+        const daysRemaining = LICENSE_DURATION_DAYS - daysPassed;
+        
+        console.log(`라이센스 상태: ${daysPassed}일 지남, ${daysRemaining}일 남음`);
+        
+        if (daysRemaining <= 0) {
+            // 라이센스 만료
+            showLicenseExpired();
+            return false;
+        } else if (daysRemaining <= WARNING_THRESHOLD_DAYS) {
+            // 만료 임박 경고
+            showLicenseWarning(daysRemaining);
+            return true;
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('라이센스 검증 오류:', error);
+        return true; // 오류 시 게임 허용
+    }
+}
+
+// 라이센스 환영 메시지
+function showLicenseWelcome() {
+    const welcomeDiv = document.createElement('div');
+    welcomeDiv.className = 'license-welcome';
+    welcomeDiv.innerHTML = `
+        <div class="license-modal">
+            <h2>🎉 강아지 품종 맞추기 게임에 오신 것을 환영합니다!</h2>
+            <p>30일 무료 체험판이 시작되었습니다.</p>
+            <p>마음껏 즐기세요! 🐕</p>
+            <button onclick="closeLicenseModal()" class="license-btn">시작하기</button>
+        </div>
+    `;
+    document.body.appendChild(welcomeDiv);
+}
+
+// 라이센스 만료 임박 경고
+function showLicenseWarning(daysRemaining) {
+    const warningDiv = document.createElement('div');
+    warningDiv.className = 'license-warning';
+    warningDiv.innerHTML = `
+        <div class="license-modal warning">
+            <h2>⚠️ 체험판 만료 임박</h2>
+            <p>체험판이 <strong>${daysRemaining}일</strong> 후에 만료됩니다.</p>
+            <p>계속 이용하시려면 정식 버전을 구매해주세요.</p>
+            <button onclick="closeLicenseModal()" class="license-btn">계속 게임하기</button>
+        </div>
+    `;
+    document.body.appendChild(warningDiv);
+}
+
+// 라이센스 만료 화면
+function showLicenseExpired() {
+    document.body.innerHTML = `
+        <div class="license-expired">
+            <div class="expired-container">
+                <h1>🚫 체험판이 만료되었습니다</h1>
+                <p>30일 체험 기간이 종료되었습니다.</p>
+                <p>게임을 계속 이용하시려면 정식 버전을 구매해주세요.</p>
+                <div class="expired-actions">
+                    <button onclick="resetLicense()" class="reset-btn">개발자용: 라이센스 초기화</button>
+                    <button onclick="window.close()" class="close-btn">창 닫기</button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// 라이센스 모달 닫기
+function closeLicenseModal() {
+    const modals = document.querySelectorAll('.license-welcome, .license-warning');
+    modals.forEach(modal => modal.remove());
+}
+
+// 개발자용 라이센스 초기화 기능
+function resetLicense() {
+    if (confirm('정말로 라이센스를 초기화하시겠습니까?\n(개발자 전용 기능입니다)')) {
+        localStorage.removeItem('dogGameActivationDate');
+        alert('라이센스가 초기화되었습니다. 페이지를 새로고침합니다.');
+        location.reload();
+    }
+}
+
+// 페이지 로드 시 라이센스 검증
+document.addEventListener('DOMContentLoaded', function() {
+    if (!initializeLicense()) {
+        return; // 라이센스 만료 시 게임 차단
+    }
+});
+
+// ==== 게임 코드 시작 ====
+
 // 게임 상태
 let currentQuestionIndex = 0;
 let score = 0;
@@ -78,6 +193,11 @@ const dogBreeds = {
 
 // 게임 시작
 function startGame() {
+    // 라이센스 검증
+    if (!initializeLicense()) {
+        return; // 라이센스 만료 시 게임 차단
+    }
+    
     currentQuestionIndex = 0;
     score = 0;
     questions = getProgressiveQuestions();
