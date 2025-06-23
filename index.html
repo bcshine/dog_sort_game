@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>강아지 품종 맞추기</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 시작 화면 -->
+    <div id="startScreen" class="screen active">
+        <div class="container">
+            <h1 class="title bounce">강아지 품종 맞추기</h1>
+            
+            <div class="start-dog-image">
+                <img src="assets/dogs/dg5_huski.jpg" alt="허스키" class="start-dog">
+            </div>
+            
+            <p class="description">강아지의 품종을 맞춰보세요!</p>
+            
+            <div class="game-info">
+                <p>🐕 3개의 문제가 나갑니다</p>
+                <div class="score-info">
+                    <p>🏆 3품종 모두 맞추면 <strong>초고수</strong> (상품증정)</p>
+                    <p>🥈 2품종 맞추면 <strong>고수</strong> (한번더 기회)</p>
+                    <p>🥉 1품종 이하면 <strong>입문자</strong> (한번더)</p>
+                </div>
+            </div>
+            
+            <button class="start-btn" onclick="startGame()">게임 시작하기</button>
+        </div>
+    </div>
+
+    <!-- 게임 화면 -->
+    <div id="gameScreen" class="screen">
+        <div class="container">
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            
+            <div class="question-counter">
+                <span id="currentQuestion">1</span> / 3
+            </div>
+            
+            <div class="dog-image-container">
+                <img id="dogImage" src="" alt="강아지" class="dog-image">
+            </div>
+            
+            <h2 class="question-title">이 강아지의 품종은?</h2>
+            
+            <div class="options" id="options">
+                <!-- 선택지 버튼들이 동적으로 생성됩니다 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 결과 화면 -->
+    <div id="resultScreen" class="screen">
+        <div class="container">
+            <div class="result-content">
+                <div class="result-emoji" id="resultEmoji">🎉</div>
+                <h2 class="result-title" id="resultTitle">강아지 초고수!</h2>
+                <p class="result-message" id="resultMessage">축하합니다!</p>
+                
+                <div class="score-display">
+                    <span id="finalScore">3</span> / 3 정답
+                </div>
+                
+                <div class="coupon-section" id="couponSection">
+                    <img src="assets/게임_성공_쿠폰.png" alt="쿠폰" class="coupon-image">
+                    <p>강아지 간식을 드립니다!</p>
+                </div>
+                
+                <div class="result-buttons">
+                    <button class="coupon-btn" id="couponBtn" onclick="saveCoupon()">쿠폰 저장하기</button>
+                    <button class="home-btn" onclick="goHome()">홈으로 돌아가기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 축포 효과 -->
+    <div id="confetti" class="confetti"></div>
+
+    <!-- 오디오 -->
+    <audio id="successSound" preload="auto">
+        <source src="assets/con_01.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="failSound" preload="auto">
+        <source src="assets/fail_02.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="kiddingSound" preload="auto">
+        <source src="assets/kidding_01.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="correctSound" preload="auto">
+        <source src="assets/Ascending 7.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="incorrectSound" preload="auto">
+        <source src="assets/fail_05.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- 움직이는 ggg 이미지 -->
+    <div id="movingGgg" class="moving-ggg">
+        <img src="assets/ggg.png" alt="아쉬워요">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
